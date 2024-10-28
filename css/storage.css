@@ -88,14 +88,14 @@ body {
 .search {
   position: fixed;
   top: 0;
-  left: 0; /* измените left на 0 */
-  width: 100%; /* измените ширину на 100% */
+  left: 0; 
+  width: 100%; 
   height: 40px;
   background-color: #580606;
   color: #fff;
   padding: 10px;
   display: flex;
-  justify-content: center; /* измените justify-content на center */
+  justify-content: center;
 }
 
 #search-input {
@@ -105,7 +105,7 @@ body {
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 5px;
-  width: 30%; /* измените ширину */
+  width: 30%; 
 }
 
 #search-button {
@@ -116,5 +116,5 @@ body {
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  width: 10%; /* измените ширину */
+  width: 10%;
 }

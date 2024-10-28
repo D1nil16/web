@@ -59,17 +59,6 @@ if (isset($_POST['add_to_cart'])) {
     <button class="product-button" id="add-to-cart-1" name="add_to_cart">Добавить в корзину</button>
   </form>
 </div>
-
-<div class="product-card">
-  <img src="img/2.jpg" alt="Изображение товара" class="product-image">
-  <h2 class="product-title">Клавиатура</h2>
-  <p class="product-description">Механическая клавиатура с подсветкой RGB</p>
-  <p class="product-price">Цена: 5000 руб.</p>
-  <form action="" method="post">
-  <input type="hidden" name="id" value="2">
-  <input type="hidden" name="name" value="Клавиатура">
-  <input type="hidden" name="price" value="5000">
-  <button class="product-button" id="add-to-cart-2" name="add_to_cart">Добавить в корзину</button>
 </form>
 </div>
 </div>

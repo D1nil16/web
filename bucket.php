@@ -1,74 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+<div class="products-container">
+
 <?php
 session_start();
 
-
-if (!isset($_SESSION['products'])) {
-    $_SESSION['products'] = [];
-}
-
-// Создание массива для хранения товаров с количеством
-$products_with_quantity = [
-    1 => [
-        'id' => 1,
-        'name' => 'Игровой монитор LOC',
-        'price' => 15000,
-        'quantity' => 0,
-    ],
-    2 => [
-        'id' => 2,
-        'name' => 'Клавиатура',
-        'price' => 5000,
-        'quantity' => 0,
-    ],
-];
-
-// Перебор товаров в корзине
-foreach ($_SESSION['products'] as $product) {
-    if (isset($products_with_quantity[$product['id']])) {
-        $products_with_quantity[$product['id']]['quantity']++;
-    } else {
-        $products_with_quantity[$product['id']] = [
-            'id' => $product['id'],
-            'name' => $product['name'],
-            'price' => $product['price'],
-            'quantity' => 1,
-        ];
-    }
-}
-
-// Вывод товаров с количеством
-echo '<link rel="stylesheet" href="css/bucket.css">';
-echo '<h1>Товары</h1>';
-foreach ($products_with_quantity as $product) {
-    if ($product['quantity'] > 0) {
-        echo '<form action="" method="post">';
-        echo '<div class="product-card">';
-        echo '<img src="img/' . $product['id'] . '.jpg" alt="Изображение товара" class="product-image">';
-        echo '<h2>' . $product['name'] . '</h2>';
-        echo '<p>Цена: ' . $product['price'] . ' руб.</p>';
-        echo '<p>Количество: ' . $product['quantity'] . '</p>';
-        echo '<button type="submit" name="remove_from_cart" value="' . $product['id'] . '" class="product-button">Убрать из корзины</button>';
-        echo '</div>';
-        echo '</form>';
-    }
-}
-
-// Удаление товаров из корзины
-if (isset($_POST['remove_from_cart'])) {
-    $product_id = $_POST['remove_from_cart'];
-    foreach ($_SESSION['products'] as $key => $product) {
-        if ($product['id'] == $product_id) {
-            unset($_SESSION['products'][$key]);
-            break;
+if (!isset($_SESSION['products']) || empty($_SESSION['products'])) {
+    echo 'Корзина пуста';
+} else {
+    echo '<h2>Ваша корзина:</h2>';
+    echo '<link rel="stylesheet" href="css/bucket.css">';
+    
+    // Группируем товары по идентификатору
+    $groupedProducts = [];
+    foreach ($_SESSION['products'] as $product) {
+        if (!isset($groupedProducts[$product['id']])) {
+            $groupedProducts[$product['id']] = $product;
+            $groupedProducts[$product['id']]['quantity'] = 1; // Инициализируем количество
+        } else {
+            $groupedProducts[$product['id']]['quantity']++; // Увеличиваем количество
         }
     }
+
+    // Выводим сгруппированные товары
+    foreach ($groupedProducts as $product) {
+        echo '<div class="product-card">';
+        echo '<img src="' . htmlspecialchars($product['image']) . '" alt="Изображение товара" class="product-image">';
+        echo '<h2 class="product-title">' . htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') . '</h2>';
+        echo '<p class="product-price">Цена: ' . htmlspecialchars($product['price']) . ' руб.</p>';
+        echo '<p>Количество: ' . htmlspecialchars($product['quantity']) . '</p>'; // Показываем общее количество
+        echo '<form action="" method="post" style="display:inline;">'; // Убираем лишнюю обертку
+        echo '<input type="hidden" name="remove_id" value="' . htmlspecialchars($product['id']) . '">';
+        echo '<button class="product-button" name="remove_from_cart">Удалить из корзины</button>';
+        echo '</form>';
+        echo '</div>';
+    }
+    echo '<form action="storage.php" method="post">'; // Форма для оформления заказа
+    echo '<button type="submit">Перейти к оформлению</button>';
+    echo '</form>';
 }
 
-// Проверка
-if (count($_SESSION['products']) == 1) {
-    echo '<p>В корзине 1 товар</p>';
-} else {
-    echo '<p>В корзине ' . count($_SESSION['products']) . ' товаров</p>';
+// Удаление товара из корзины
+if (isset($_POST['remove_from_cart'])) {
+    $remove_id = $_POST['remove_id'];
+    foreach ($_SESSION['products'] as $index => $product) {
+        if ($product['id'] == $remove_id) {
+            unset($_SESSION['products'][$index]);
+            break; // Выходим из цикла после удаления
+        }
+    }
+    header("Location: bucket.php"); // Перезагружаем страницу корзины
+    exit();
 }
 ?>
+
 <a href="storage.php">Вернуться назад</a>
+</div>
+
+</body>
+</html>
+

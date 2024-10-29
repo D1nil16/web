@@ -9,19 +9,20 @@ if (isset($_POST['add_to_cart'])) {
   $id = $_POST['id'];
   $name = $_POST['name'];
   $price = $_POST['price'];
+  $image = $_POST['image'];
 
-  if (!empty($id) && !empty($name) && !empty($price)) {
+  if (!empty($id) && !empty($name) && !empty($price) && !empty($image)) {
     $_SESSION['products'][] = [
       'id' => $id,
       'name' => $name,
-      'price' => $price
+      'price' => $price,
+      'image' => $image
     ];
   } else {
     echo 'Ошибка добавления товара в корзину';
   }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,28 +42,45 @@ if (isset($_POST['add_to_cart'])) {
 <div class="sidebar">
   <h2>Добавить фильтр</h2>
   <ul>
-  <a href="bucket.php">Перейти в корзину</a>
-    <li><a href="#">Пункт 2</a></li>
+    <a href="bucket.php">Перейти в корзину</a>
+    <li><a href="admin/admin.php">Админ панель(Временно)</a></li>
     <li><a href="#">Пункт 3</a></li>
   </ul>
 </div>
-<div class="product cards">
-<div class="product-card">
-  <img src="img/1.jpg" alt="Изображение товара" class="product-image">
-  <h2 class="product-title">Игровой монитор LOC</h2>
-  <p class="product-description">Игровой монитор LOC с частотой обновления 75 Гц</p>
-  <p class="product-price">Цена: 15000 руб.</p>
-  <form action="" method="post">
-    <input type="hidden" name="id" value="1">
-    <input type="hidden" name="name" value="Игровой монитор LOC">
-    <input type="hidden" name="price" value="15000">
-    <button class="product-button" id="add-to-cart-1" name="add_to_cart">Добавить в корзину</button>
-  </form>
-</div>
-</form>
-</div>
-</div>
 
+<div class="products-container">
+<?php
+$db = new SQLite3('db/database.db');
+if (!$db) {
+    die('Не удалось подключиться к базе данных');
+}
 
+$stmt = $db->prepare('SELECT * FROM products');
+if (!$stmt) {
+    die('Ошибка подготовки запроса');
+}
+
+$result = $stmt->execute();
+
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+  echo '<div class="product-card">';
+  echo '<img src="' . htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']) . '/' . $row['image']) . '" alt="Изображение товара" class="product-image">';
+  echo '<h2 class="product-title">' . htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8') . '</h2>';
+  echo '<p class="product-description">' . htmlspecialchars($row['description'], ENT_QUOTES, 'UTF-8') . '</p>';
+  echo '<p class="product-price">Цена: ' . htmlspecialchars($row['price']) . ' руб.</p>';
+  echo '<form action="" method="post">';
+  echo '<input type="hidden" name="id" value="' . htmlspecialchars($row['id']) . '">';
+  echo '<input type="hidden" name="name" value="' . htmlspecialchars($row['title']) . '">';
+  echo '<input type="hidden" name="price" value="' . htmlspecialchars($row['price']) . '">';
+  echo '<input type="hidden" name="image" value="' . htmlspecialchars(dirname($_SERVER['SCRIPT_NAME']) . '/' . $row['image']) . '">';
+  echo '<button class="product-button" id="add-to-cart-' . htmlspecialchars($row['id']) . '" name="add_to_cart">Добавить в корзину</button>';
+  echo '</form>';
+  echo '</div>';
+}
+
+$db->close();
+?>
+
+</div>
 </body>
 </html>

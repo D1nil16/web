@@ -6,6 +6,14 @@
     <title>Корзина</title>
 </head>
 <body>
+<nav class="search">
+  <a href="storage.php" class="link">Перейти в каталог</a>
+  <a href="admin/admin.php" class="link">Админ панель(Временно)</a>
+<form action="storage.php" method="post">
+<button type="submit">Перейти к оформлению</button>
+</form>
+</nav>
+
 <div class="products-container">
 
 <?php
@@ -41,9 +49,6 @@ if (!isset($_SESSION['products']) || empty($_SESSION['products'])) {
         echo '</form>';
         echo '</div>';
     }
-    echo '<form action="storage.php" method="post">'; // Форма для оформления заказа
-    echo '<button type="submit">Перейти к оформлению</button>';
-    echo '</form>';
 }
 
 // Удаление товара из корзины
@@ -52,15 +57,13 @@ if (isset($_POST['remove_from_cart'])) {
     foreach ($_SESSION['products'] as $index => $product) {
         if ($product['id'] == $remove_id) {
             unset($_SESSION['products'][$index]);
-            break; // Выходим из цикла после удаления
+            break;
         }
     }
-    header("Location: bucket.php"); // Перезагружаем страницу корзины
+    header("Location: bucket.php"); 
     exit();
 }
 ?>
-
-<a href="storage.php">Вернуться назад</a>
 </div>
 
 </body>

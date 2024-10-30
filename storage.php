@@ -35,18 +35,12 @@ if (isset($_POST['add_to_cart'])) {
 </head>
 <body>
 <nav class="search">
+  <a href="bucket.php" class="link">Перейти в корзину</a>
+  <a href="admin/admin.php" class="link">Админ панель(Временно)</a>
   <input type="text" id="search-input" placeholder="Найти товар...">
   <button id="search-button">Найти</button>
 </nav>
 
-<div class="sidebar">
-  <h2>Добавить фильтр</h2>
-  <ul>
-    <a href="bucket.php">Перейти в корзину</a>
-    <li><a href="admin/admin.php">Админ панель(Временно)</a></li>
-    <li><a href="#">Пункт 3</a></li>
-  </ul>
-</div>
 
 <div class="products-container">
 <?php

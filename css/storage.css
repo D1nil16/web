@@ -17,9 +17,9 @@ body {
   padding: 30px;
   margin: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-right: -150px; 
+  margin-right: 10px; 
   margin-bottom: 30px;
-  margin-left: 160px; 
+  margin-left: 0px; 
   margin-top: 60px; 
 }
 
@@ -64,32 +64,6 @@ body {
   background-color: #ff3333;
 }
 
-.sidebar {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 120px;
-  height: 100%;
-  color: #000000;
-  padding: 20px;
-  background-color: #666;
-}
-
-.sidebar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.sidebar li {
-  margin-bottom: 10px;
-}
-
-.sidebar a {
-  color: #000000;
-  text-decoration: none;
-}
-
 .search {
   position: fixed;
   top: 0;
@@ -100,7 +74,6 @@ body {
   color: #fff;
   padding: 10px;
   display: flex;
-  justify-content: center;
 }
 
 #search-input {
@@ -122,4 +95,12 @@ body {
   border-radius: 5px;
   cursor: pointer;
   width: 10%;
+}
+
+.search a {
+  color: #fff; 
+  font-size: 18px; 
+  text-decoration: none; 
+  margin-right: 20px; 
+  margin-top: 8px; 
 }

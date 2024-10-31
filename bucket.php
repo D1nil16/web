@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина</title>
+    <link rel="stylesheet" href="css/bucket.css">
 </head>
 <body>
 <nav class="search">
   <a href="storage.php" class="link">Перейти в каталог</a>
   <a href="admin/admin.php" class="link">Админ панель(Временно)</a>
-<form action="storage.php" method="post">
-<button type="submit">Перейти к оформлению</button>
+<form action="mail/shop.php" method="post">
+<button type="submit" class="search-button">Перейти к оформлению</button>
 </form>
 </nav>
 
@@ -23,7 +24,6 @@ if (!isset($_SESSION['products']) || empty($_SESSION['products'])) {
     echo 'Корзина пуста';
 } else {
     echo '<h2>Ваша корзина:</h2>';
-    echo '<link rel="stylesheet" href="css/bucket.css">';
     
     // Группируем товары по идентификатору
     $groupedProducts = [];
